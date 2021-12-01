@@ -1,7 +1,7 @@
 # HLint action
 
 This is a GitHub Action that checks to make sure that Haskell files are
-properly formatted with [HLint][].
+properly linted with [HLint][].
 
 [HLint]: https://hackage.haskell.org/package/hlint
 
