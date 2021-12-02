@@ -71,8 +71,7 @@ const isUndefined = (x) =>
 
       const hints = JSON.parse(chunks.join(''));
       for (const hint of hints) {
-        const message = hint.to || `Remove: ${hint.from}`;
-        core.warning(message, {
+        core.warning(`Before: ${hint.from}\nAfter: ${hint.to || ''}`, {
           endColumn: hint.endColumn,
           endLine: hint.endLine,
           file: hint.file,
