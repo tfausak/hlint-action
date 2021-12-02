@@ -3,11 +3,10 @@ const exec = require('@actions/exec');
 const fs = require('fs');
 const glob = require('@actions/glob');
 const toolCache = require('@actions/tool-cache');
-const util = require('util');
 
 const DEFAULT_CONFIG = '.hlint.yaml';
 
-const DEFAULT_PATTERN = 'Example.hs'; // '**/*.hs';
+const DEFAULT_PATTERN = '**/*.hs';
 
 const DEFAULT_VERSION = '3.3.4';
 
@@ -52,14 +51,35 @@ const isUndefined = (x) =>
     const files = await globber.glob();
 
     if (files.length > 0) {
-      console.log(`::add-matcher::${__dirname}/problem-matcher.json`);
-
-      const arguments = [...files.sort()];
+      const arguments = [
+        '--cmdthreads',
+        '--json',
+        '--no-exit-code',
+        ...files.sort(),
+      ];
       const exists = await isFile(config);
       if (exists) {
         arguments.unshift('--hint', config);
       }
-      await exec.exec('hlint', arguments);
+
+      const chunks = [];
+      await exec.exec('hlint', arguments, {
+        listeners: {
+          stdout: (chunk) => chunks.push(chunk),
+        },
+      });
+
+      const ideas = JSON.parse(chunks.join(''));
+      for (const idea of ideas) {
+        core.warning(idea.to, {
+          endColumn: idea.endColumn,
+          endLine: idea.endLine,
+          file: idea.file,
+          startColumn: idea.startColumn,
+          startLine: idea.startLine,
+          title: `${idea.severity}: ${idea.hint}`,
+        });
+      }
     }
   } catch (error) {
     core.setFailed(error);
