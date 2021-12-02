@@ -69,16 +69,20 @@ const isUndefined = (x) =>
         },
       });
 
-      const ideas = JSON.parse(chunks.join(''));
-      for (const idea of ideas) {
-        core.warning(idea.to, {
-          endColumn: idea.endColumn,
-          endLine: idea.endLine,
-          file: idea.file,
-          startColumn: idea.startColumn,
-          startLine: idea.startLine,
-          title: `${idea.severity}: ${idea.hint}`,
+      const hints = JSON.parse(chunks.join(''));
+      for (const hint of hints) {
+        core.warning(`Found: \`${hint.from}\`\nPerhaps: \`${hint.to}\``, {
+          endColumn: hint.endColumn,
+          endLine: hint.endLine,
+          file: hint.file,
+          startColumn: hint.startColumn,
+          startLine: hint.startLine,
+          title: `${hint.severity}: ${hint.hint}`,
         });
+      }
+
+      if (hints.length > 0) {
+        throw new Error(`${hints.length} hint${hints.length === 1 ? '' : 's'}`);
       }
     }
   } catch (error) {
