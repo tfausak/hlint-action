@@ -25,5 +25,5 @@ jobs:
 - `pattern`: Optional. Defaults to `**/*.hs`. The Haskell files to lint. If no
   files are found, the action will succeed.
 
-- `version`: Optional. Defaults to `3.3.4`. The version of HLint to use.
+- `version`: Optional. Defaults to `latest`. The version of HLint to use.
   Supports these versions: <https://github.com/ndmitchell/hlint/releases>.

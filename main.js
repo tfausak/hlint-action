@@ -8,7 +8,9 @@ const DEFAULT_CONFIG = '.hlint.yaml';
 
 const DEFAULT_PATTERN = '**/*.hs';
 
-const DEFAULT_VERSION = '3.3.4';
+const DEFAULT_VERSION = 'latest';
+
+const LATEST_VERSION = '3.4';
 
 const EXTENSIONS = {
   darwin: '.tar.gz',
@@ -37,7 +39,8 @@ const isUndefined = (x) =>
     const extension = EXTENSIONS[process.platform];
     const pattern = core.getInput('pattern') || DEFAULT_PATTERN;
     const platform = PLATFORMS[process.platform];
-    const version = core.getInput('version') || DEFAULT_VERSION;
+    const rawVersion = core.getInput('version') || DEFAULT_VERSION;
+    const version = rawVersion === 'latest' ? LATEST_VERSION : rawVersion;
 
     if (isUndefined(extension) || isUndefined(platform)) {
       throw new Error(`unsupported platform: ${process.platform}`);

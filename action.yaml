@@ -12,9 +12,9 @@ inputs:
   version:
     description: The version of HLint to use.
     required: false
-    default: 3.3.4
+    default: latest
 runs:
-  using: node12
+  using: node16
   main: main.js
 branding:
   icon: trending-up
