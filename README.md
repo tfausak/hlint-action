@@ -1,5 +1,9 @@
 # HLint action
 
+:warning:
+This action is not maintained anymore.
+You should use [haskell/actions/hlint-run](https://github.com/haskell/actions/tree/main/hlint-run) instead.
+
 This is a GitHub Action that checks to make sure that Haskell files are
 properly linted with [HLint][].
 
